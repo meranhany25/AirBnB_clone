@@ -2,38 +2,11 @@
 """
 Module for BaseModel unittest
 """
-import os
 import unittest
 from models.base_model import BaseModel
 
 
 class TestBasemodel(unittest.TestCase):
-    """
-    Unittest for BaseModel
-    """
-
-    def setUp(self):
-        """
-        Setup for temporary file path
-        """
-        try:
-            os.rename("file.json", "tmp.json")
-        except FileNotFoundError:
-            pass
-
-    def tearDown(self):
-        """
-        Tear down for temporary file path
-        """
-        try:
-            os.remove("file.json")
-        except FileNotFoundError:
-            pass
-        try:
-            os.rename("tmp.json", "file.json")
-        except FileNotFoundError:
-            pass
-
     def test_init(self):
         """
         Test for init
@@ -68,8 +41,9 @@ class TestBasemodel(unittest.TestCase):
 
         self.assertEqual(my_model_dict["__class__"], 'BaseModel')
         self.assertEqual(my_model_dict['id'], my_model.id)
-        self.assertEqual(my_model_dict['created_at'], my_model.created_at.isoformat())
-        self.assertEqual(my_model_dict["updated_at"], my_model.created_at.isoformat())
+        new_model = my_model.created_at.isoformat()
+        self.assertEqual(my_model_dict['created_at'], new_model)
+        self.assertEqual(my_model_dict["updated_at"], new_model)
 
     def test_str(self):
         """
