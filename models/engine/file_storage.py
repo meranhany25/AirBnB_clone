@@ -17,11 +17,11 @@ class FileStorage:
     def all(self):
         """Return the dictionary __objects."""
         return FileStorage.__objects
-    
+
     def new(self, obj):
         """
-         Sets an object in the __objects dictionary with a key of 
-         <obj class name>.id.
+        Sets an object in the __objects dictionary with a key of
+        <obj class name>.id.
         """
         obj_cls_name = obj.__class__.__name__
         key = "{}.{}".format(obj_cls_name, obj.id)
