@@ -4,7 +4,6 @@ Module for serializing and deserializing data
 """
 import json
 import os
-from models.base_model import BaseModel
 
 
 class FileStorage:
@@ -28,7 +27,9 @@ class FileStorage:
         FileStorage.__objects[key] = obj
 
     def save(self):
-        """Serialize __objects to the JSON file __file_path."""
+        """
+        Serialize __objects to the JSON file __file_path.
+        """
         all_objs = FileStorage.__objects
         obj_dict = {}
         for obj in all_objs.keys():
@@ -37,13 +38,17 @@ class FileStorage:
             json.dump(obj_dict, file)
 
     def reload(self):
-        """Deserialize the JSON file __file_path to __objects, if it exists."""
-        try:
-            with open(FileStorage.__file_path) as f:
-                objdict = json.load(f)
-                for o in objdict.values():
-                    cls_name = o["__class__"]
-                    del o["__class__"]
-                    self.new(eval(cls_name)(**o))
-        except FileNotFoundError:
-            return
+        """
+        This method deserializes the JSON file
+        """
+        if os.path.isfile(FileStorage.__file_path):
+            with open(FileStorage.__file_path, "r", encoding="utf-8") as file:
+                try:
+                    obj_dict = json.load(file)
+                    for key, value in obj_dict.items():
+                        class_name, obj_id = key.split('.')
+                        cls = eval(class_name)
+                        instance = cls(**value)
+                        FileStorage.__objects[key] = instance
+                except Exception:
+                    pass
