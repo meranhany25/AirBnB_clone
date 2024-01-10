@@ -47,9 +47,9 @@ class BaseModel:
         Return the dictionary of the BaseModel instance
         """
         inst_dict = self.__dict__.copy()
-        inst_dict["__class__"] = self.__class__.__name__
         inst_dict["created_at"] = self.created_at.isoformat()
         inst_dict["updated_at"] = self.updated_at.isoformat()
+        inst_dict["__class__"] = self.__class__.__name__
 
         return inst_dict
 
