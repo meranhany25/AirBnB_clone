@@ -45,7 +45,7 @@ class HBNBCommand(cmd.Cmd):
             new_instance = eval(f"{commands[0]}()")
             storage.save()
             print(new_instance.id)
-    
+
     def do_show(self, arg):
         """
         Show the string representation of an instance.
